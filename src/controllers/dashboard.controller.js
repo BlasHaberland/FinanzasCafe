@@ -18,6 +18,22 @@ const mostrar = async (req, res) => {
         AND MONTH(fecha) = MONTH(CURDATE())
         AND YEAR(fecha) = YEAR(CURDATE())
     `);
+        const [listaIngresos] = await db.query(`
+            SELECT monto, fecha, descripcion 
+            FROM transaccion 
+            WHERE tipo = 'ingreso'
+            AND MONTH(fecha) = MONTH(CURDATE())
+            AND YEAR(fecha) = YEAR(CURDATE())
+            ORDER BY fecha DESC
+            `);
+        const [listaEgresos] = await db.query(`
+            SELECT monto, fecha, descripcion 
+            FROM transaccion 
+            WHERE tipo = 'egreso'
+            AND MONTH(fecha) = MONTH(CURDATE())
+            AND YEAR(fecha) = YEAR(CURDATE())
+            ORDER BY fecha DESC
+            `);
 
         res.render('dashboard/index', {
             title: 'Dashboard',
@@ -25,6 +41,9 @@ const mostrar = async (req, res) => {
             metodos,
             totalIngresos: totalIngresos[0].total,
             totalEgresos: totalEgresos[0].total,
+            listaEgresos: listaEgresos,
+            listaIngresos: listaIngresos
+
         });
     } catch (error) {
         console.error(error);

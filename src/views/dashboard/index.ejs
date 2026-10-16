@@ -1,61 +1,113 @@
 <%- include('../partials/header') %>
     <%- include('../partials/navbar') %>
+        <%- include('../partials/ingresosModal') %>
 
-        <main class="flex-1 p-4 pb-16 flex flex-col items-center justify-center gap-4 w-full">
-            <!-- Botones de acción -->
-            <div class="flex gap-3 w-full lg:w-auto">
-                <a href="#"
-                    class="flex-1 lg:flex-none text-center text-sm font-medium bg-white border border-amber-200 hover:border-red-900 transition-transform duration-100 hover:scale-105 text-red-900 py-2 px-6 rounded-xl shadow-sm transition-colors">
-                    🔍 Filtrar
-                </a>
-                <a href="#"
-                    class="flex-1 lg:flex-none text-center text-sm font-medium bg-white border border-amber-200 hover:border-red-900 transition-transform duration-100 hover:scale-105 text-red-900 py-2 px-6 rounded-xl shadow-sm transition-colors">
-                    📊 Estadísticas
-                </a>
-            </div>
-
-            <!-- Tarjetas: apiladas en mobile, lado a lado en desktop -->
-            <div class="flex flex-col lg:flex-row gap-4 w-full lg:w-auto">
-
-                <!-- Zona Ingresos -->
-                <div
-                    class="bg-white border border-amber-200 rounded-2xl p-5 flex flex-col gap-3 shadow-sm w-full lg:w-96">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-base font-semibold text-green-700 ">💰 Ingresos</h2>
-                        <span class="text-2xl font-bold text-green-700">$0.00</span>
-                    </div>
-                    <hr class="border-amber-100" />
-                    <p class="text-stone-400 text-sm text-center py-4">No hay ingresos registrados</p>
-                    <button
-                        class="w-full bg-green-700 hover:bg-green-600 transition-transform duration-100 hover:scale-105 text-white text-sm font-semibold py-2.5 rounded-xl transition-colors">
-                        + Agregar ingreso
-                    </button>
+            <main class="flex-1 p-4 pb-16 flex flex-col items-center justify-center gap-4 w-full">
+                <!-- Botones de acción -->
+                <div class="flex gap-3 w-full lg:w-auto">
+                    <a href="#"
+                        class="flex-1 lg:flex-none text-center text-sm font-medium bg-white border border-amber-200 hover:border-red-900 transition-transform duration-100 hover:scale-105 text-red-900 py-2 px-6 rounded-xl shadow-sm transition-colors">
+                        🔍 Filtrar
+                    </a>
+                    <a href="#"
+                        class="flex-1 lg:flex-none text-center text-sm font-medium bg-white border border-amber-200 hover:border-red-900 transition-transform duration-100 hover:scale-105 text-red-900 py-2 px-6 rounded-xl shadow-sm transition-colors">
+                        📊 Estadísticas
+                    </a>
                 </div>
 
-                <!-- Zona Gastos -->
-                <div
-                    class="bg-white border border-amber-200 rounded-2xl p-5 flex flex-col gap-3 shadow-sm w-full lg:w-96">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-base font-semibold text-red-900">💸 Gastos</h2>
-                        <span class="text-2xl font-bold text-red-900">$0.00</span>
+                <!-- Tarjetas: apiladas en mobile, lado a lado en desktop -->
+                <div class="flex flex-col lg:flex-row gap-4 w-full lg:w-auto">
+
+                    <!-- Zona Ingresos -->
+                    <div
+                        class="bg-white border border-amber-200 rounded-2xl p-5 flex flex-col gap-3 shadow-sm w-full lg:w-96">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-base font-semibold text-green-700 ">💰 Ingresos</h2>
+                            <span class="text-2xl font-bold text-green-700"> $ <%- totalIngresos%> </span>
+                        </div>
+                        <hr class="border-amber-100" />
+                        <div class="mt-4">
+                            <% if (listaIngresos.length> 0) { %>
+                                <!-- Si hay ingresos, mostramos la lista -->
+                                <ul class="space-y-3 max-h-48 overflow-y-auto pr-2">
+                                    <% listaIngresos.forEach(ingreso=> { %>
+                                        <li class="flex justify-between items-center border-b border-gray-100 pb-2">
+                                            <div class="flex flex-col">
+                                                <span class="text-sm font-medium text-gray-700">
+                                                    <%= ingreso.descripcion ? ingreso.descripcion : 'Sin descripción' %>
+                                                </span>
+                                                <span class="text-xs text-gray-400">
+                                                    <!-- Formateamos la fecha -->
+                                                    <%= new Date(ingreso.fecha).toLocaleDateString('es-AR') %>
+                                                </span>
+                                            </div>
+                                            <span class="font-bold text-green-600">
+                                                +$<%= Number(ingreso.monto).toFixed(2) %>
+                                            </span>
+                                        </li>
+                                        <% }) %>
+                                </ul>
+                                <% } else { %>
+                                    <!-- Si no hay ingresos, mostramos el mensaje original -->
+                                    <p class="text-center text-gray-400 text-sm py-4">No hay ingresos registrados</p>
+                                    <% } %>
+                        </div>
+                        <button onclick="abrirModalIngreso()"
+                            class="w-full bg-green-700 hover:bg-green-600 transition-transform duration-100 hover:scale-105 text-white text-sm font-semibold py-2.5 rounded-xl transition-colors">
+                            + Agregar ingreso
+                        </button>
                     </div>
-                    <hr class="border-amber-100" />
-                    <p class="text-stone-400 text-sm text-center py-4">No hay gastos registrados</p>
-                    <button
-                        class="w-full bg-red-900 hover:bg-red-800 transition-transform duration-100 hover:scale-105 text-amber-50 text-sm font-semibold py-2.5 rounded-xl transition-colors">
-                        + Agregar gasto
-                    </button>
+
+                    <!-- Zona Gastos -->
+                    <div
+                        class="bg-white border border-amber-200 rounded-2xl p-5 flex flex-col gap-3 shadow-sm w-full lg:w-96">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-base font-semibold text-red-900">💸 Gastos</h2>
+                            <span class="text-2xl font-bold text-red-900">$0.00</span>
+                        </div>
+                        <hr class="border-amber-100" />
+                        <div class="mt-4">
+                            <% if (listaEgresos.length> 0) { %>
+                                <!-- Si hay ingresos, mostramos la lista -->
+                                <ul class="space-y-3 max-h-48 overflow-y-auto pr-2">
+                                    <% listaEgresos.forEach(ingreso=> { %>
+                                        <li class="flex justify-between items-center border-b border-gray-100 pb-2">
+                                            <div class="flex flex-col">
+                                                <span class="text-sm font-medium text-gray-700">
+                                                    <%= ingreso.descripcion ? ingreso.descripcion : 'Sin descripción' %>
+                                                </span>
+                                                <span class="text-xs text-gray-400">
+                                                    <!-- Formateamos la fecha -->
+                                                    <%= new Date(ingreso.fecha).toLocaleDateString('es-AR') %>
+                                                </span>
+                                            </div>
+                                            <span class="font-bold text-green-600">
+                                                +$<%= Number(ingreso.monto).toFixed(2) %>
+                                            </span>
+                                        </li>
+                                        <% }) %>
+                                </ul>
+                                <% } else { %>
+                                    <!-- Si no hay ingresos, mostramos el mensaje original -->
+                                    <p class="text-center text-gray-400 text-sm py-4">No hay gastos registrados</p>
+                                    <% } %>
+                        </div>
+                        <button
+                            class="w-full bg-red-900 hover:bg-red-800 transition-transform duration-100 hover:scale-105 text-amber-50 text-sm font-semibold py-2.5 rounded-xl transition-colors">
+                            + Agregar gasto
+                        </button>
+                    </div>
+
                 </div>
 
+            </main>
+
+            <!-- Footer -->
+            <div class="fixed bottom-0 left-0 right-0 bg-red-900 py-3 text-center shadow-lg">
+                <p class="text-amber-100 text-sm font-semibold tracking-widest ">@blas haberland</p>
             </div>
 
-        </main>
+            <script src="/js/ingresosModal.js"></script>
+            </body>
 
-        <!-- Footer -->
-        <div class="fixed bottom-0 left-0 right-0 bg-red-900 py-3 text-center shadow-lg">
-            <p class="text-amber-100 text-sm font-semibold tracking-widest ">@blas haberland</p>
-        </div>
-
-        </body>
-
-        </html>
+            </html>
