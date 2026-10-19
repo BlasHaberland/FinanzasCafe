@@ -63,7 +63,7 @@
                         class="bg-white border border-amber-200 rounded-2xl p-5 flex flex-col gap-3 shadow-sm w-full lg:w-96">
                         <div class="flex items-center justify-between">
                             <h2 class="text-base font-semibold text-red-900">💸 Gastos</h2>
-                            <span class="text-2xl font-bold text-red-900">$0.00</span>
+                            <span class="text-2xl font-bold text-red-900">$<%- totalEgresos%></span>
                         </div>
                         <hr class="border-amber-100" />
                         <div class="mt-4">
@@ -92,7 +92,7 @@
                                     <p class="text-center text-gray-400 text-sm py-4">No hay gastos registrados</p>
                                     <% } %>
                         </div>
-                        <button
+                        <button onclick="abrirModalIngreso()"
                             class="w-full bg-red-900 hover:bg-red-800 transition-transform duration-100 hover:scale-105 text-amber-50 text-sm font-semibold py-2.5 rounded-xl transition-colors">
                             + Agregar gasto
                         </button>

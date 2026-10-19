@@ -9,7 +9,6 @@ function abrirModalIngreso() {
     document.getElementById('fechaVisual').value = hoy;
 }
 
-// Ocultar el modal
 function cerrarModalIngreso() {
     document.getElementById('modalIngreso').classList.add('hidden');
 }
