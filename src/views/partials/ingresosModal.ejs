@@ -3,10 +3,7 @@
         <h2 class="text-xl font-bold text-red-900 mb-4">Agregar Nuevo Ingreso</h2>
 
         <form id="formIngreso" action="/transacciones" method="POST">
-            <!-- Campo oculto para el TIPO, se llena automáticamente -->
             <input type="hidden" name="tipo" id="tipoIngreso" value="ingreso">
-
-            <!-- Campo oculto para la FECHA COMPLETA (Día + Hora) -->
             <input type="hidden" name="fecha" id="fechaReal">
 
             <!-- Descripción -->
@@ -33,7 +30,6 @@
                     required onchange="actualizarTipoCategoria()">
                     <option value="" disabled selected>Seleccione una categoría</option>
                     <% categorias.forEach(cat=> { %>
-                        <!-- Usamos data-tipo para guardar el tipo_asociado oculto en el HTML -->
                         <option value="<%= cat.id_categoria %>" data-tipo="<%= cat.tipo_asociado %>">
                             <%= cat.nombre %>
                         </option>

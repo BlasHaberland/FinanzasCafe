@@ -15,7 +15,6 @@
                     </a>
                 </div>
 
-                <!-- Tarjetas: apiladas en mobile, lado a lado en desktop -->
                 <div class="flex flex-col lg:flex-row gap-4 w-full lg:w-auto">
 
                     <!-- Zona Ingresos -->
@@ -28,7 +27,6 @@
                         <hr class="border-amber-100" />
                         <div class="mt-4">
                             <% if (listaIngresos.length> 0) { %>
-                                <!-- Si hay ingresos, mostramos la lista -->
                                 <ul class="space-y-3 max-h-48 overflow-y-auto pr-2">
                                     <% listaIngresos.forEach(ingreso=> { %>
                                         <li class="flex justify-between items-center border-b border-gray-100 pb-2">
@@ -37,7 +35,6 @@
                                                     <%= ingreso.descripcion ? ingreso.descripcion : 'Sin descripción' %>
                                                 </span>
                                                 <span class="text-xs text-gray-400">
-                                                    <!-- Formateamos la fecha -->
                                                     <%= new Date(ingreso.fecha).toLocaleDateString('es-AR') %>
                                                 </span>
                                             </div>
@@ -48,7 +45,6 @@
                                         <% }) %>
                                 </ul>
                                 <% } else { %>
-                                    <!-- Si no hay ingresos, mostramos el mensaje original -->
                                     <p class="text-center text-gray-400 text-sm py-4">No hay ingresos registrados</p>
                                     <% } %>
                         </div>
@@ -68,7 +64,6 @@
                         <hr class="border-amber-100" />
                         <div class="mt-4">
                             <% if (listaEgresos.length> 0) { %>
-                                <!-- Si hay ingresos, mostramos la lista -->
                                 <ul class="space-y-3 max-h-48 overflow-y-auto pr-2">
                                     <% listaEgresos.forEach(ingreso=> { %>
                                         <li class="flex justify-between items-center border-b border-gray-100 pb-2">
@@ -77,7 +72,6 @@
                                                     <%= ingreso.descripcion ? ingreso.descripcion : 'Sin descripción' %>
                                                 </span>
                                                 <span class="text-xs text-gray-400">
-                                                    <!-- Formateamos la fecha -->
                                                     <%= new Date(ingreso.fecha).toLocaleDateString('es-AR') %>
                                                 </span>
                                             </div>
@@ -88,7 +82,7 @@
                                         <% }) %>
                                 </ul>
                                 <% } else { %>
-                                    <!-- Si no hay ingresos, mostramos el mensaje original -->
+
                                     <p class="text-center text-gray-400 text-sm py-4">No hay gastos registrados</p>
                                     <% } %>
                         </div>
