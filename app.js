@@ -26,11 +26,12 @@ app.use(session({
 }));
 
 // ── Rutas (las iremos agregando después) ──────────
-// app.use('/', require('./src/routes/auth.routes'));
 
+app.use('/', require('./src/routes/dashboard.routes'));
+app.use('/transacciones', require('./src/routes/transacciones.routes'));
 // ── Ruta de prueba ────────────────────────────────
 app.get('/', (req, res) => {
-    res.send('¡FinanzasCafé funcionando! ☕');
+    res.render('dashboard/index', { title: 'Inicio' });
 });
 
 // ── Iniciar servidor ──────────────────────────────
