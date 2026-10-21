@@ -25,14 +25,15 @@ app.use(session({
     saveUninitialized: false,
 }));
 
-// ── Rutas (las iremos agregando después) ──────────
+// ── Rutas ──────────
 
 app.use('/', require('./src/routes/dashboard.routes'));
 app.use('/transacciones', require('./src/routes/transacciones.routes'));
-// ── Ruta de prueba ────────────────────────────────
-app.get('/', (req, res) => {
+app.use('/estadisticas', require('./src/routes/estadisticas.routes'));
+// ── Ruta prueba ────────────────────────────────
+/*app.get('/', (req, res) => {
     res.render('dashboard/index', { title: 'Inicio' });
-});
+});*/
 
 // ── Iniciar servidor ──────────────────────────────
 const PORT = process.env.PORT || 3000;
