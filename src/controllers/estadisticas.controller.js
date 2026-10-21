@@ -34,7 +34,7 @@ const mostrar = async (req, res) => {
       GROUP BY tipo
     `);
 
-        res.json({
+        res.render('estadisticas/index', {
             title: 'Estadísticas',
             ingresosPorCategoria,
             egresosPorCategoria,
