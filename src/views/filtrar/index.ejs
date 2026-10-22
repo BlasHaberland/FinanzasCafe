@@ -1,0 +1,135 @@
+<%- include('../partials/header') %>
+    <%- include('../partials/navbar') %>
+
+        <main class="flex-1 p-4 pb-16 flex flex-col gap-4 w-full max-w-4xl mx-auto">
+
+            <!-- Botones de acción -->
+            <div class="flex gap-3 w-full lg:w-auto">
+                <a href="/"
+                    class="flex-1 lg:flex-none text-center text-sm font-medium bg-white border border-amber-200 hover:border-red-900 transition-transform duration-100 hover:scale-105 text-red-900 py-2 px-6 rounded-xl shadow-sm transition-colors">
+                    🏠 Inicio
+                </a>
+                <a href="/estadisticas"
+                    class="flex-1 lg:flex-none text-center text-sm font-medium bg-white border border-amber-200 hover:border-red-900 transition-transform duration-100 hover:scale-105 text-red-900 py-2 px-6 rounded-xl shadow-sm transition-colors">
+                    📊 Estadísticas
+                </a>
+            </div>
+
+            <!-- Formulario de filtros -->
+            <form method="GET" action="/filtrar"
+                class="bg-white border border-amber-200 rounded-2xl p-5 shadow-sm flex flex-col gap-3">
+
+                <!-- Fila 1: Tipo y Categoría -->
+                <div class="flex flex-col lg:flex-row gap-3">
+                    <div class="flex-1">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Tipo</label>
+                        <select name="tipo" class="border border-gray-300 w-full p-2 rounded-lg text-sm">
+                            <option value="">Todos</option>
+                            <option value="ingreso" <%=filtros.tipo==='ingreso' ? 'selected' : '' %>>💰 Ingreso</option>
+                            <option value="egreso" <%=filtros.tipo==='egreso' ? 'selected' : '' %>>💸 Egreso</option>
+                        </select>
+                    </div>
+
+                    <div class="flex-1">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Categoría</label>
+                        <select name="id_categoria" class="border border-gray-300 w-full p-2 rounded-lg text-sm">
+                            <option value="">Todas</option>
+                            <% categorias.forEach(cat=> { %>
+                                <option value="<%= cat.id_categoria %>" <%=filtros.id_categoria==cat.id_categoria
+                                    ? 'selected' : '' %>>
+                                    <%= cat.nombre %>
+                                </option>
+                                <% }) %>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Fila 2: Fechas -->
+                <div class="flex flex-col lg:flex-row gap-3">
+                    <div class="flex-1">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Desde</label>
+                        <input type="date" name="fecha_desde" value="<%= filtros.fecha_desde || '' %>"
+                            max="<%= new Date().toISOString().split('T')[0] %>"
+                            class="border border-gray-300 w-full p-2 rounded-lg text-sm">
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Hasta</label>
+                        <input type="date" name="fecha_hasta" value="<%= filtros.fecha_hasta || '' %>"
+                            max="<%= new Date().toISOString().split('T')[0] %>"
+                            class="border border-gray-300 w-full p-2 rounded-lg text-sm">
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="flex gap-3">
+                    <button type="submit"
+                        class="flex-1 bg-red-900 hover:bg-red-800 text-amber-50 text-sm font-semibold py-2.5 rounded-xl transition-colors">
+                        Aplicar filtros
+                    </button>
+                    <a href="/filtrar"
+                        class="flex-1 text-center bg-white border border-gray-300 hover:border-red-900 text-red-900 text-sm font-semibold py-2.5 rounded-xl transition-colors">
+                        Limpiar
+                    </a>
+                </div>
+            </form>
+
+            <!-- Resultados -->
+            <div class="bg-white border border-amber-200 rounded-2xl p-5 shadow-sm">
+                <p class="text-sm text-gray-400 mb-3">
+                    <%= transacciones.length %> resultado(s)
+                </p>
+
+                <% if (transacciones.length> 0) { %>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="text-left border-b border-amber-100 text-gray-500">
+                                    <th class="pb-2 pr-4">Fecha</th>
+                                    <th class="pb-2 pr-4">Descripción</th>
+                                    <th class="pb-2 pr-4">Categoría</th>
+                                    <th class="pb-2 pr-4">Tipo</th>
+                                    <th class="pb-2 text-right">Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% transacciones.forEach(t=> { %>
+                                    <tr class="border-b border-gray-50 hover:bg-amber-50 transition-colors">
+                                        <td class="py-2 pr-4 text-gray-500">
+                                            <%= new Date(t.fecha).toLocaleDateString('es-AR') %>
+                                        </td>
+                                        <td class="py-2 pr-4 text-gray-700">
+                                            <%= t.descripcion || 'Sin descripción' %>
+                                        </td>
+                                        <td class="py-2 pr-4 text-gray-600">
+                                            <%= t.categoria || '—' %>
+                                        </td>
+                                        <td class="py-2 pr-4">
+                                            <span class="px-2 py-0.5 rounded-full text-xs font-semibold
+                    <%= t.tipo === 'ingreso' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-800' %>">
+                                                <%= t.tipo %>
+                                            </span>
+                                        </td>
+                                        <td class="py-2 text-right font-semibold
+                  <%= t.tipo === 'ingreso' ? 'text-green-700' : 'text-red-900' %>">
+                                            <%= t.tipo==='ingreso' ? '+' : '-' %>$<%= Number(t.monto).toFixed(2) %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <% } else { %>
+                        <p class="text-center text-gray-400 py-8">No se encontraron transacciones con esos filtros.</p>
+                        <% } %>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <div class="fixed bottom-0 left-0 right-0 bg-red-900 py-3 text-center shadow-lg">
+            <p class="text-amber-100 text-sm font-semibold tracking-widest">@blas haberland</p>
+        </div>
+
+        </body>
+
+        </html>
