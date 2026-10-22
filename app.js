@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const methodOverride = require('method-override');
 const path = require('path');
+const { isAuthenticated } = require('./src/middlewares/auth.middleware');
 require('dotenv').config();
 
 const app = express();
@@ -26,11 +27,12 @@ app.use(session({
 }));
 
 // ── Rutas ──────────
+app.use('/', require('./src/routes/auth.routes'));
+app.use('/', isAuthenticated, require('./src/routes/dashboard.routes'));
+app.use('/transacciones', isAuthenticated, require('./src/routes/transacciones.routes'));
+app.use('/estadisticas', isAuthenticated, require('./src/routes/estadisticas.routes'));
+app.use('/filtrar', isAuthenticated, require('./src/routes/filtrar.routes'))
 
-app.use('/', require('./src/routes/dashboard.routes'));
-app.use('/transacciones', require('./src/routes/transacciones.routes'));
-app.use('/estadisticas', require('./src/routes/estadisticas.routes'));
-app.use('/filtrar', require('./src/routes/filtrar.routes'))
 // ── Ruta prueba ────────────────────────────────
 /*app.get('/', (req, res) => {
     res.render('dashboard/index', { title: 'Inicio' });
