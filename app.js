@@ -28,16 +28,11 @@ app.use(session({
 
 // ── Rutas ──────────
 app.use('/', require('./src/routes/auth.routes'));
+// ── Rutas privadas ──────────
 app.use('/', isAuthenticated, require('./src/routes/dashboard.routes'));
 app.use('/transacciones', isAuthenticated, require('./src/routes/transacciones.routes'));
 app.use('/estadisticas', isAuthenticated, require('./src/routes/estadisticas.routes'));
 app.use('/filtrar', isAuthenticated, require('./src/routes/filtrar.routes'))
-
-// ── Ruta prueba ────────────────────────────────
-/*app.get('/', (req, res) => {
-    res.render('dashboard/index', { title: 'Inicio' });
-});*/
-
 // ── Iniciar servidor ──────────────────────────────
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
