@@ -7,29 +7,29 @@ const mostrar = async (req, res) => {
         const [totalIngresos] = await db.query(`
       SELECT COALESCE(SUM(monto), 0) AS total
       FROM transaccion
-      WHERE tipo = 'ingreso'
+      WHERE tipo = 'ingreso' AND activo = 1
         AND MONTH(fecha) = MONTH(CURDATE())
         AND YEAR(fecha) = YEAR(CURDATE())
     `);
         const [totalEgresos] = await db.query(`
       SELECT COALESCE(SUM(monto), 0) AS total
       FROM transaccion
-      WHERE tipo = 'egreso'
+      WHERE tipo = 'egreso' AND activo = 1
         AND MONTH(fecha) = MONTH(CURDATE())
         AND YEAR(fecha) = YEAR(CURDATE())
     `);
         const [listaIngresos] = await db.query(`
-            SELECT monto, fecha, descripcion 
+            SELECT id_transaccion, monto, fecha, descripcion 
             FROM transaccion 
-            WHERE tipo = 'ingreso'
+            WHERE tipo = 'ingreso' AND activo = 1
             AND MONTH(fecha) = MONTH(CURDATE())
             AND YEAR(fecha) = YEAR(CURDATE())
             ORDER BY fecha DESC
             `);
         const [listaEgresos] = await db.query(`
-            SELECT monto, fecha, descripcion 
+            SELECT id_transaccion, monto, fecha, descripcion 
             FROM transaccion 
-            WHERE tipo = 'egreso'
+            WHERE tipo = 'egreso' AND activo = 1
             AND MONTH(fecha) = MONTH(CURDATE())
             AND YEAR(fecha) = YEAR(CURDATE())
             ORDER BY fecha DESC

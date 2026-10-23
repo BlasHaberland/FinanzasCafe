@@ -22,4 +22,21 @@ const crear = async (req, res) => {
         res.redirect('/?error=error_servidor');
     }
 };
-module.exports = { crear };
+
+const eliminar = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await db.query(
+            'UPDATE transaccion SET activo = 0 WHERE id_transaccion = ?',
+            [id]
+        );
+
+        res.redirect('/');
+
+    } catch (error) {
+        console.error(error);
+        res.redirect('/?error=error_eliminar');
+    }
+};
+
+module.exports = { crear, eliminar };
