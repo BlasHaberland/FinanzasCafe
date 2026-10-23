@@ -10,7 +10,7 @@ const buscar = async (req, res) => {
       FROM transaccion t
       LEFT JOIN categoria c ON t.id_categoria = c.id_categoria
       LEFT JOIN metodo_pago m ON t.id_metodo = m.id_metodo
-      WHERE 1=1
+      WHERE t.activo = 1
     `;
         const params = [];
 
