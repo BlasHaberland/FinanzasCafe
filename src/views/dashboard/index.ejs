@@ -41,6 +41,15 @@
                                             <span class="font-bold text-green-600">
                                                 +$<%= Number(ingreso.monto).toFixed(2) %>
                                             </span>
+                                            <form action="/transacciones/<%= ingreso.id_transaccion %>?_method=DELETE"
+                                                method="POST"
+                                                onsubmit="return confirm('¿Seguro que deseas eliminar esta transacción?');">
+                                                <button type="submit"
+                                                    class="text-gray-400 hover:text-red-600 transition text-sm"
+                                                    title="Eliminar">
+                                                    Borrar
+                                                </button>
+                                            </form>
                                         </li>
                                         <% }) %>
                                 </ul>
@@ -78,6 +87,15 @@
                                             <span class="font-bold text-red-900">
                                                 -$<%= Number(ingreso.monto).toFixed(2) %>
                                             </span>
+                                            <form action="/transacciones/<%= ingreso.id_transaccion %>?_method=DELETE"
+                                                method="POST"
+                                                onsubmit="return confirm('¿Seguro que deseas eliminar esta transacción?');">
+                                                <button type="submit"
+                                                    class="text-gray-400 hover:text-red-600 transition text-sm"
+                                                    title="Eliminar">
+                                                    Borrar
+                                                </button>
+                                            </form>
                                         </li>
                                         <% }) %>
                                 </ul>

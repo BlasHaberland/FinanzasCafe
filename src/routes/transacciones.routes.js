@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { crear } = require('../controllers/transacciones.controller');
+const { crear, eliminar } = require('../controllers/transacciones.controller');
 
 router.post('/', crear);
+router.delete('/:id', eliminar);
 module.exports = router;
